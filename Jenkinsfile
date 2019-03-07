@@ -41,8 +41,8 @@ node {
     }
 
     stage('Run image') {
-      pipelineContext.dockerContainer = pipelineContext.app.run("-p 8000:8000")
-      sh 'curl http://127.0.0.1:8000'
+      pipelineContext.dockerContainer = pipelineContext.app.run()
+      //sh 'curl http://127.0.0.1:8000'
     }
 
     stage('Push image') {
