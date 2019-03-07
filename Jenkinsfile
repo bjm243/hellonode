@@ -42,7 +42,10 @@ node {
         /* Ideally, we would run a test framework against our image.
          * For this example, we're using a Volkswagen-type approach ;-) */
 
-        app.inside {
+	app = docker.run("-it -p 8000:8000 getintodevops-hellonode:1")
+	sh 'curl http://127.0.0.1:8000'
+	app = docker.kill("getintodevops-hellonode:1")
+	app.inside {
             sh 'echo "Tests passed"'
         }
     }
