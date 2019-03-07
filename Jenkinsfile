@@ -11,7 +11,7 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("bjm243/hellonode")
+        app = docker.build("${DOCKER_HUB_NAME}/hellonode")
     }
 
     stage('Test image') {
