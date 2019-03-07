@@ -3,8 +3,21 @@ node {
 
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
-
         checkout scm
+    }
+
+    //Install the npm dependecies locally for Nexus analysis
+    stage('Install dependencies for Nexus') {
+      steps {
+        sh 'npm install'
+      }
+    }
+
+    //Evaluate code with Nexus
+    stage('Open Source Component Analysis') {
+        steps {
+          nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'hellonode', iqScanPatterns: [[scanPattern: '**/*.js'],[scanPattern: '**/*.zip'],[scanPattern: '**/*.war'],[scanPattern: '**/*.ear'],[scanPattern: '**/*.tar.gz']], iqStage: 'build'
+        }
     }
 
     stage('Build image') {
