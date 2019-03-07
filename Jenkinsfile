@@ -56,15 +56,13 @@ node {
         }
     }
 
-    post {
-      always {
-        echo "Stop Docker image"
-        script {
-          if (pipelineContext && pipelineContext.dockerContainer) {
-            pipelineContext.dockerContainer.stop()
-			    }
-		    }
-	    }
+    stage('Clean up') {
+      echo "Stop Docker image"
+      script {
+        if (pipelineContext && pipelineContext.dockerContainer) {
+          pipelineContext.dockerContainer.stop()
+        }
     }
+
 }
 
