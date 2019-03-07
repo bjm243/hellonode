@@ -7,12 +7,12 @@ node {
     }
 
     //Install the npm dependecies locally for Nexus analysis
-    stage('Install dependencies for Nexus') {
-        sh 'npm install'
+    stage('Install dependencies for OSCA') {
+        sh 'npm install --production'
     }
 
     //Evaluate code with Nexus
-    stage('Open Source Component Analysis') {
+    stage('OSCA') {
           nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'hellonode', iqScanPatterns: [[scanPattern: '**/*.js'],[scanPattern: '**/*.zip'],[scanPattern: '**/*.war'],[scanPattern: '**/*.ear'],[scanPattern: '**/*.tar.gz']], iqStage: 'build'
     }
 
