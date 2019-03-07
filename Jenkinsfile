@@ -62,6 +62,7 @@ node {
         if (pipelineContext && pipelineContext.dockerContainer) {
           pipelineContext.dockerContainer.stop()
         }
+      }
     }
 
 }
