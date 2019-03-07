@@ -60,10 +60,10 @@ node {
       echo "Stop Docker image"
       script {
         if (pipelineContext && pipelineContext.dockerContainer) {
-          pipelineContext.dockerContainer = pipelineContext.app.stop()
+          pipelineContext.dockerContainer.stop()
+          echo "Docker container stopped"
         }
       }
     }
 
 }
-
