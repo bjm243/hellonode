@@ -80,6 +80,13 @@ def sendEmailNotification(status) {
 
 }
 
+def getRepoSlug() {
+    tokens = "${env.JOB_NAME}".tokenize('/')
+    org = tokens[tokens.size()-3]
+    repo = tokens[tokens.size()-2]
+    return "${org}/${repo}"
+}
+
 void setBuildStatus(context, message, state) {
   // partially hard coded URL because of https://issues.jenkins-ci.org/browse/JENKINS-36961, adjust to your own GitHub instance
   step([
