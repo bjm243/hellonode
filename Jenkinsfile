@@ -77,7 +77,7 @@ def cloneRepo() {
 }
 
 def sendEmailNotification(status) {
-  office365ConnectorSend message: "<Your message>", status:'${status}', webhookUrl:'${O365_WEBHOOK}'
+  office365ConnectorSend message: "<Your message>", status:'${status}', webhookUrl:"${O365_WEBHOOK}"
 
 }
 
