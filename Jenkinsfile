@@ -65,19 +65,19 @@ node {
           echo "Docker container stopped"
         }
     }
+}
 
-    /* Let's make sure we have the repository cloned to our workspace */
-    def cloneRepo () {
-      stage 'Clone repository'
-      context = "devsecops/jenkins/"
-      checkout scm
-      setBuildStatus ("${context}", 'Repo cloned to workspace completed', 'SUCCESS')
-      sendEmailNotification(setBuildStatus)
-    }
+/* Let's make sure we have the repository cloned to our workspace */
+def cloneRepo () {
+  stage 'Clone repository'
+  context = "devsecops/jenkins/"
+  checkout scm
+  setBuildStatus ("${context}", 'Repo cloned to workspace completed', 'SUCCESS')
+  sendEmailNotification(setBuildStatus)
+}
 
-    def sendEmailNotification (status) {
-      office365ConnectorSend message: "<Your message>", status:'${status}', webhookUrl:'${O365_WEBHOOK}'
+def sendEmailNotification (status) {
+  office365ConnectorSend message: "<Your message>", status:'${status}', webhookUrl:'${O365_WEBHOOK}'
 
-    }
 }
 
