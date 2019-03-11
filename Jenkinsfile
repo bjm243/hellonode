@@ -73,7 +73,6 @@ def cloneRepo() {
   context = "devsecops/jenkins/"
   checkout scm
   setBuildStatus ("${context}", 'Repo cloned to workspace completed', 'SUCCESS')
-  sendEmailNotification(setBuildStatus)
 }
 
 def sendEmailNotification(status) {
