@@ -1,12 +1,9 @@
 node {
     def app
     // Initialize a LinkedHashMap / object to share between stages
-    def pipelineContext = [:]
+    def dockerContext = [:]
 
-    stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
-        checkout scm
-    }
+    cloneRepo()
 
     //Install the npm dependecies locally for Nexus analysis
     stage('Install dependencies for OSCA') {
@@ -37,16 +34,16 @@ node {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
          app = docker.build("${DOCKER_HUB_NAME}/hellonode")
-	       pipelineContext.app = app
+	       dockerContext.app = app
     }
 
     stage('Run Container') {
-      pipelineContext.dockerContainer = pipelineContext.app.run()
+      dockerContext.dockerContainer = dockerContext.app.run()
       //sh 'curl http://127.0.0.1:8000'
     }
 
     stage('Perform DAST in Container') {
-      pipelineContext.dockerContainer = pipelineContext.app.run()
+      dockerContext.dockerContainer = dockerContext.app.run()
       //sh 'curl http://127.0.0.1:8000'
     }
 
@@ -63,10 +60,24 @@ node {
 
     stage('Clean up') {
       echo "Stop Docker image"
-        if (pipelineContext && pipelineContext.dockerContainer) {
-          pipelineContext.dockerContainer.stop()
+        if (dockerContext && dockerContext.dockerContainer) {
+          dockerContext.dockerContainer.stop()
           echo "Docker container stopped"
         }
+    }
+
+    /* Let's make sure we have the repository cloned to our workspace */
+    def cloneRepo () {
+      stage 'Clone repository'
+      context = "devsecops/jenkins/"
+      checkout scm
+      setBuildStatus ("${context}", 'Repo cloned to workspace completed', 'SUCCESS')
+      sendEmailNotification(setBuildStatus)
+    }
+
+    def sendEmailNotification (status) {
+      office365ConnectorSend message: "<Your message>", status:'${status}', webhookUrl:'${O365_WEBHOOK}'
+
     }
 }
 
