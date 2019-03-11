@@ -68,7 +68,7 @@ node {
 }
 
 /* Let's make sure we have the repository cloned to our workspace */
-def cloneRepo () {
+def cloneRepo() {
   stage 'Clone repository'
   context = "devsecops/jenkins/"
   checkout scm
@@ -76,7 +76,7 @@ def cloneRepo () {
   sendEmailNotification(setBuildStatus)
 }
 
-def sendEmailNotification (status) {
+def sendEmailNotification(status) {
   office365ConnectorSend message: "<Your message>", status:'${status}', webhookUrl:'${O365_WEBHOOK}'
 
 }
