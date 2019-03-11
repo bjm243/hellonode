@@ -81,10 +81,10 @@ def sendEmailNotification(status) {
 }
 
 def getRepoSlug() {
-    tokens = "${env.JOB_NAME}".tokenize('/')
-    org = tokens[tokens.size()-3]
-    repo = tokens[tokens.size()-2]
-    return "${org}/${repo}"
+    //tokens = "${env.JOB_NAME}".tokenize('/')
+    //org = tokens[tokens.size()-3]
+    //repo = tokens[tokens.size()-2]
+    return "${env.JOB_NAME}"
 }
 
 void setBuildStatus(context, message, state) {
