@@ -73,6 +73,12 @@ pipeline {
         }
       }
 
+      stage('Run Container') {
+        sh 'docker run -it ' + dockerImageTag
+        echo 'SUCCESS: ' + jobName + ': Ran Container: ' + dockerImageTag
+        //sh 'curl http://127.0.0.1:8000'
+      }
+
     }
 }
 
