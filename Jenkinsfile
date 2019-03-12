@@ -2,8 +2,8 @@ node {
     def app
     // Initialize a LinkedHashMap / object to share between stages
     def dockerContext = [:]
-    String jobName = "${env.JOB_NAME}"
-    String buildStatus
+    def jobName = "${env.JOB_NAME}"
+    def buildStatus
 
     cloneRepo()
 }
