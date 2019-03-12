@@ -7,6 +7,7 @@ pipeline {
     dockerContext = "" // Initialize a LinkedHashMap / object to share between stages
     jobName = "${env.JOB_NAME}"
     dockerHub = "${DOCKER_HUB_NAME}"
+    dockerImageTag = dockerHub + '/' + jobName
   }
 
 
@@ -66,10 +67,9 @@ pipeline {
 
       //Install the npm dependecies
       stage('Build Container') {
-        //agent { dockerfile true }
         steps {
-          sh 'docker build -t ' + dockerHub + '/' + jobName + ' .'
-          echo 'SUCCESS: ' + jobName + ': Built Container: ' + dockerHub + '/' + jobName
+          sh 'docker build -t ' + dockerImageTag + ' -f ./Dockerfile .'
+          echo 'SUCCESS: ' + jobName + ': Built Container: ' + dockerImageTag
         }
       }
 
