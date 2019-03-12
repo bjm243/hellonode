@@ -17,7 +17,7 @@ pipeline {
       stage('Clone Repository') {
         steps {
           checkout scm
-          echo 'SUCCESS: ' + jobName + ': Repo cloned to workspace completed'
+          echo 'SUCCESS: ' + jobName + ': Cloned Repository'
         }
       }
 
@@ -26,7 +26,19 @@ pipeline {
         steps {
           /*sh 'rmdir node_modules /s /q'*/
           sh 'npm install'
+          echo 'SUCCESS: ' + jobName + ': Installed Dependencies for OSCA'
         }
+      }
+
+      //Evaluate code with Nexus
+      //**Does not seem to evaluate entire workspace...
+      stage('Perform OSCA') {
+          steps {
+            nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: 'hellonode',
+              iqScanPatterns: [[scanPattern: '**/*.js'],[scanPattern: '**/*.zip'],[scanPattern: '**/*.war'],[scanPattern: '**/*.ear'],[scanPattern: '**/*.tar.gz']],
+              iqStage: 'build'
+            echo 'SUCCESS: ' + jobName + ': Performed OSCA'
+          }
       }
 
     }
