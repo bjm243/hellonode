@@ -6,7 +6,6 @@ pipeline {
   environment {
     dockerContext = "" // Initialize a LinkedHashMap / object to share between stages
     jobName = "${env.JOB_NAME}"
-    buildStatus = "FAILURE"
   }
 
 
@@ -16,8 +15,12 @@ pipeline {
       /* Let's make sure we have the repository cloned to our workspace */
       stage('Clone Repository') {
         steps {
-          checkout scm
-          echo 'SUCCESS: ' + jobName + ': Cloned Repository'
+          try {
+            checkout scm
+            echo 'SUCCESS: ' + jobName + ': Cloned Repository'
+          } catch (err) {
+            echo 'FAILURE: ' + jobName + ': ' + err
+          }
         }
       }
 
