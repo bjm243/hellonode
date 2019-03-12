@@ -82,14 +82,14 @@ pipeline {
         }
       }
 
-      post {
-          always {
-              echo "Stop Docker image"
-              sh 'docker stop ' + dockerImageTag
-              sh 'docker rm ' + dockerImageTag
-          }
-      }
+    }
 
+    post {
+        always {
+            echo "Stop Docker image"
+            sh 'docker stop ' + dockerImageTag
+            sh 'docker rm ' + dockerImageTag
+        }
     }
 }
 
