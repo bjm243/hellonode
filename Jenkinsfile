@@ -7,7 +7,7 @@ pipeline {
     dockerContext = "" // Initialize a LinkedHashMap / object to share between stages
     jobName = "${env.JOB_NAME}"
     dockerHub = "${DOCKER_HUB_NAME}"
-    dockerImageTag = dockerHub + '/' + jobName
+    dockerImageTag = dockerHub + "/" + jobName
   }
 
 
