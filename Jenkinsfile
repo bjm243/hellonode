@@ -65,17 +65,18 @@ pipeline {
         }
       }
 
-      //Install the npm dependecies
+      //Instructs Docker to build the Dockerfile in the current directory w/ a tag
       stage('Build Container') {
         steps {
-          sh 'docker build -t ' + dockerImageTag + ' -f ./Dockerfile .'
+          sh 'docker build . -t ' + dockerImageTag
           echo 'SUCCESS: ' + jobName + ': Built Container: ' + dockerImageTag
         }
       }
 
+      //Instructs Docker to run the image interactively with a pseudo-tty, map the port 8000 in the container to port 8000 on my machine
       stage('Run Container') {
         steps {
-          sh 'docker run -it ' + dockerImageTag
+          sh 'docker run -it -p 8000:8000 ' + dockerImageTag
           echo 'SUCCESS: ' + jobName + ': Ran Container: ' + dockerImageTag
           //sh 'curl http://127.0.0.1:8000'
         }
@@ -83,3 +84,4 @@ pipeline {
 
     }
 }
+
