@@ -16,6 +16,7 @@ pipeline {
       /* Let's make sure we have the repository cloned to our workspace */
       stage('Clone Repository') {
         steps {
+          checkout scm
           echo 'SUCCESS: ' + jobName + ': Cloned Repository'
         }
       }
