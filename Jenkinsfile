@@ -76,7 +76,7 @@ pipeline {
       //Instructs Docker to run the image interactively with a pseudo-tty, map the port 8000 in the container to port 8000 on my machine
       stage('Run Container') {
         steps {
-          sh 'docker run -it -p 8000:8000 ' + dockerImageTag
+          sh 'docker run -p 8000:8000 ' + dockerImageTag
           echo 'SUCCESS: ' + jobName + ': Ran Container: ' + dockerImageTag
           //sh 'curl http://127.0.0.1:8000'
         }
