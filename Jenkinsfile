@@ -1,10 +1,12 @@
+// Initialize a LinkedHashMap / object to share between stages
+def dockerContext = [:]
+
 pipeline {
 
   //This job will run in any jenkins agent
   agent any
 
   environment {
-    dockerContext = "" // Initialize a LinkedHashMap / object to share between stages
     jobName = "${env.JOB_NAME}"
     dockerHub = "${DOCKER_HUB_NAME}"
     dockerImageTag = "${DOCKER_HUB_NAME}" + "/" + "${env.JOB_NAME}"
@@ -68,8 +70,12 @@ pipeline {
       //Instructs Docker to build the Dockerfile in the current directory w/ a tag
       stage('Build Container') {
         steps {
-          sh 'docker build . -t ' + dockerImageTag
-          echo 'SUCCESS: ' + jobName + ': Built Container: ' + dockerImageTag
+          script {
+            dockerImage = docker.build(dockerImageTag)
+            dockerContext.dockerImage = dockerImage
+            //sh 'docker build . -t ' + dockerImageTag
+            echo 'SUCCESS: ' + jobName + ': Built Container: ' + dockerImageTag
+          }
         }
       }
 
