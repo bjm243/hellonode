@@ -4,7 +4,7 @@ pipeline {
   agent any
 
   environment {
-    dockerContext = [:] // Initialize a LinkedHashMap / object to share between stages
+    dockerContext = "" // Initialize a LinkedHashMap / object to share between stages
     jobName = "${env.JOB_NAME}"
     buildStatus = "FAILURE"
   }
@@ -14,9 +14,7 @@ pipeline {
       stage('Clone Repository') {
         steps {
           checkout scm
-          buildStatus = "SUCCESS: " + jobName + ": Repo cloned to workspace completed"
-          echo buildStatus
-          buildStatus = ""
+          echo 'SUCCESS: ' + jobName + ' : Repo cloned to workspace completed'
         }
       }
     }
