@@ -60,19 +60,17 @@ pipeline {
               echo 'SUCCESS: ' + jobName + ': Performed SAST for High Risk'
             }
           }
-        }        
+        }
       }
 
-
-
       //Install the npm dependecies
-      /*stage('Build Container') {
+      stage('Build Container') {
         agent { dockerfile true }
         steps {
           sh 'docker build . -t ' + dockerHub + '/' + jobName
           echo 'SUCCESS: ' + jobName + ': Built Container: ' + dockerHub + '/' + jobName
         }
-      }*/
+      }
 
     }
 }
