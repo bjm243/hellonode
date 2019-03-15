@@ -46,7 +46,7 @@ pipeline {
               }
           }
 
-          Evaluate code with Cx only against certain vulnerability categories
+          //Evaluate code with Cx only against certain vulnerability categories
           stage('Perform SAST for High Risk') {
             steps {
               step([$class: 'CxScanBuilder', comment: '', credentialsId: '', excludeFolders: 'node_modules', excludeOpenSourceFolders: '', exclusionsSetting: 'job', failBuildOnNewResults: false, failBuildOnNewSeverity: 'HIGH', filterPattern: '''!**/_cvs/**/*, !**/.svn/**/*,   !**/.hg/**/*,   !**/.git/**/*,  !**/.bzr/**/*, !**/bin/**/*,
