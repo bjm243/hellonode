@@ -36,24 +36,7 @@ pipeline {
         }
       }
 
-      stage('Perform AppSec Analysis') {
-        //Run AppSec Tools in parallel
-        parallel {
-          //Open Source Component Analysis - Evaluate code with Nexus
-          stage('Perform OSCA') {
-              steps {
 
-              }
-          }
-
-          //Evaluate code with Cx only against certain vulnerability categories
-          stage('Perform SAST for High Risk') {
-            steps {
-
-            }
-          }
-        }
-      }
 
       //Instructs Docker to build the Dockerfile in the current directory w/ a tag
       stage('Build Project Container from Dockerfile') {
