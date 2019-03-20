@@ -60,8 +60,8 @@ pipeline {
                 dockerContext.dockerContainer = dockerContext.dockerImage.run('-p 8000:8000')
                 //sh 'docker run -p 8000:8000 ' + dockerImageTag
                 projectIP = sh 'docker inspect -f \\\'\\{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}\\\' ' + dockerImageTag
-                projectIP = 'http://' + projectIP + ':8000'
-                echo 'SUCCESS: ' + jobName + ': Ran Container: ' + dockerImageTag + projectIP
+                //projectIP = 'http://' + projectIP + ':8000'
+                //echo 'SUCCESS: ' + jobName + ': Ran Container: ' + dockerImageTag + projectIP
               }
             }
           }
