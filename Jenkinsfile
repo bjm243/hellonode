@@ -1,5 +1,6 @@
 // Initialize a LinkedHashMap / object to share between stages
 def dockerContext = [:]
+def zapContext = [:]
 
 pipeline {
 
@@ -12,7 +13,6 @@ pipeline {
     dockerImageTag = "${DOCKER_HUB_NAME}" + "/" + "${env.JOB_NAME}"
     zapContainerName = "ZAP"
     zapContainerID = ""
-    zapContext = [:]
   }
 
 
