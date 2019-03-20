@@ -50,8 +50,8 @@ pipeline {
         }
       }
 
-      //stage('Run Containers') {
-        //parallel {
+      stage('Run Containers') {
+        parallel {
 
           //Instructs Docker to run the image interactively with a pseudo-tty, map the port 8000 in the container to port 8000 on my machine
           stage('Run Project Container') {
@@ -59,7 +59,9 @@ pipeline {
               script {
                 dockerContext.dockerContainer = dockerContext.dockerImage.run('-p 8000:8000')
                 //sh 'docker run -p 8000:8000 ' + dockerImageTag
-                echo 'SUCCESS: ' + jobName + ': Ran Container: ' + dockerImageTag
+                projectIP = dockerContext.dockerImage.inspect('docker inspect -f ''{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'' ')
+                projectIP = 'http://' + projectIP + ':8000'
+                echo 'SUCCESS: ' + jobName + ': Ran Container: ' + dockerImageTag + projectIP
               }
             }
           }
@@ -69,11 +71,25 @@ pipeline {
             steps {
               //Per https://github.com/stephendonner/docker-zap/blob/master/run-docker.sh
               sh 'docker run --name ' +zapContainerName+ ' -u zap -p 2375:2375 -d owasp/zap2docker-weekly zap.sh -daemon -port 2375 -host 127.0.0.1 -config api.disablekey=true -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true'
+              echo 'SUCCESS: ' + jobName + ': Ran Container: ' + zapContainerName
             }
           }
-        //}
-      //}
 
+        }
+      }
+/*
+      stage('Perform ZAP Assessment') {
+        steps {
+          sh 'docker inspect -f ''{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'' ' + dockerImageTag
+          sh 'docker exec ' +zapContainerName+ ' zap-cli -p 2375 status -t 120 && docker exec ' +zapContainerName+ ' zap-cli -p 2375 open-url $TARGET_URL'
+          sh 'docker exec ' +zapContainerName+ ' zap-cli -p 2375 spider $TARGET_URL'
+          sh 'docker exec ' +zapContainerName+ ' zap-cli -p 2375 active-scan -r $TARGET_URL'
+          sh 'docker exec ' +zapContainerName+ ' zap-cli -p 2375 alerts'
+          sh 'docker logs ' +zapContainerName
+
+        }
+      }
+*/
     }
 
     post {
